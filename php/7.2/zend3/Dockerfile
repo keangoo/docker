@@ -286,6 +286,10 @@ COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb
 
+RUN pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis
+
 RUN docker-php-ext-install gd zip ldap pdo pdo_mysql intl
 
 RUN a2enmod rewrite
