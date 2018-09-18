@@ -128,9 +128,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 ENV GPG_KEYS A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D46839EF9BA0ADA31CBD89E 1729F83938DA44E27BA0F4D3DBDB397470D12172
 
-ENV PHP_VERSION 7.1.19
-ENV PHP_URL="https://secure.php.net/get/php-7.1.19.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-7.1.19.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="7cab88f269b90a8a38dbcccf3ec0d5c6eba86122431a53eaa94405bbb60370a8" PHP_MD5=""
+ENV PHP_VERSION 7.1.22
+ENV PHP_URL="https://secure.php.net/get/php-7.1.22.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-7.1.22.tar.xz.asc/from/this/mirror"
+ENV PHP_SHA256="9194c9b3a592d8376fde837dde711ec01ee26f8607fc2884047ef6f7c089b15d" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -163,7 +163,7 @@ RUN set -xe; \
 		wget -O php.tar.xz.asc "$PHP_ASC_URL"; \
 		export GNUPGHOME="$(mktemp -d)"; \
 		for key in $GPG_KEYS; do \
-			gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+			gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key"; \
 		done; \
 		gpg --batch --verify php.tar.xz.asc php.tar.xz; \
 		command -v gpgconf > /dev/null && gpgconf --kill all; \
@@ -236,6 +236,10 @@ RUN set -eux; \
 	make install; \
 	find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; \
 	make clean; \
+	\
+# https://github.com/docker-library/php/issues/692 (copy default example "php.ini" files somewhere easily discoverable)
+	cp -v php.ini-* "$PHP_INI_DIR/"; \
+	\
 	cd /; \
 	docker-php-source delete; \
 	\
