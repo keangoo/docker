@@ -284,6 +284,13 @@ RUN chmod +x /usr/local/bin/phpcs
 RUN curl --location --output /usr/local/bin/phpmd http://static.phpmd.org/php/latest/phpmd.phar
 RUN chmod +x /usr/local/bin/phpmd
 
+# Install nodejs
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get install -y nodejs
+
+# Install Gulp
+RUN npm install gulp-cli gulp-rev -g
+
 RUN docker-php-ext-install gd zip ldap pdo pdo_mysql intl
 
 RUN a2enmod rewrite
