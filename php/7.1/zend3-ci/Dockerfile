@@ -289,7 +289,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs
 
 # Install Gulp
-RUN npm install gulp-cli gulp-rev -g
+RUN npm install gulp gulp-cli gulp-rev -g
 
 RUN docker-php-ext-install gd zip ldap pdo pdo_mysql intl
 
