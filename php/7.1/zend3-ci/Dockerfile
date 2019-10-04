@@ -284,6 +284,9 @@ RUN chmod +x /usr/local/bin/phpcs
 RUN curl --location --output /usr/local/bin/phpmd http://static.phpmd.org/php/latest/phpmd.phar
 RUN chmod +x /usr/local/bin/phpmd
 
+# Install mysql-client
+RUN apt-get -yqq install mysql-client
+
 # Install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs
